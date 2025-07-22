@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анализ: Июльский кризис 2025 и антикоррупционная инфраструктура Украины</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Harmony -->
+    <!-- Application Structure Plan: The SPA is designed as an interactive narrative, guiding the user through the complex events of the July 2025 crisis. Instead of a linear report, it uses a thematic, dashboard-style layout with a sticky navigation bar (Главная, Анатомия Атаки, Причины, Последствия, Хронология) for easy exploration. The structure is designed to answer key questions sequentially: 1) What happened? (Anatomy of the Attack, presented in interactive tabs for legislative, force, and info prongs). 2) How did it unfold? (An interactive timeline). 3) Why did it happen? (Motives and historical precedents shown in card galleries and comparison layouts). 4) What are the consequences? (International reactions and future forecast with charts and diagrams). This non-linear, thematic structure was chosen to make the dense information digestible, allowing users to explore aspects of interest at their own pace, which is more effective for understanding and retention than a simple text scroll. -->
+    <!-- Visualization & Content Choices: The application transforms the report's static data into interactive experiences. Report Info -> Goal -> Viz/Presentation -> Interaction -> Justification -> Library/Method. 1) Law #12414 powers -> Goal: Compare -> Viz: "Before/After" styled list -> Interaction: Static visual comparison -> Justification: Clearly shows the shift in power without user effort -> Method: HTML/CSS. 2) Attack Timeline -> Goal: Show coordination -> Viz: Vertical timeline diagram -> Interaction: Click to reveal details -> Justification: More engaging than a static table, highlights the rapid sequence of events -> Method: HTML/CSS/JS. 3) NABU's high-profile cases -> Goal: Show motive -> Viz: Interactive card gallery -> Interaction: Hover/Click for details -> Justification: Visually breaks down the "enemies" NABU made -> Method: HTML/CSS/JS. 4) International Reactions -> Goal: Show unified concern -> Viz: Simple Bar Chart -> Interaction: Tooltips on hover -> Justification: Provides a quick visual summary of the gravity of the situation -> Library: Chart.js. 5) Systemic consequences -> Goal: Explain future risk -> Viz: "Domino Effect" diagram -> Interaction: Static visual -> Justification: Clearly illustrates the potential chain reaction -> Method: HTML/CSS. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F7F4;
+            color: #333333;
+        }
+        .nav-link {
+            transition: color 0.3s, border-bottom-color 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #5A7D9A;
+            border-bottom-color: #5A7D9A;
+        }
+        .tab-button {
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .tab-button.active {
+            background-color: #5A7D9A;
+            color: #FFFFFF;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 1rem;
+            left: -0.6rem;
+            width: 1.2rem;
+            height: 1.2rem;
+            background-color: #B0A89D;
+            border-radius: 50%;
+            border: 3px solid #F8F7F4;
+        }
+        .timeline-item.active::before {
+            background-color: #C75D5D;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header id="home" class="relative text-white h-[60vh] min-h-[400px] flex items-center justify-center text-center bg-gray-800">
+        <div class="absolute inset-0 bg-black opacity-50"></div>
+        <div class="relative z-10 p-4">
+            <h1 class="text-4xl md:text-6xl font-bold mb-4">Июльский кризис 2025</h1>
+            <p class="text-lg md:text-2xl max-w-4xl mx-auto">Скоординированная атака на антикоррупционный фронт Украины: демонтаж независимости НАБУ и САП.</p>
+        </div>
+    </header>
+    
+    <nav id="navbar" class="sticky top-0 bg-[#F8F7F4] bg-opacity-90 backdrop-blur-sm z-50 shadow-md">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-center items-center h-16">
+                <a href="#home" class="nav-link px-4 py-2 text-lg">Главная</a>
+                <a href="#attack" class="nav-link px-4 py-2 text-lg">Анатомия Атаки</a>
+                <a href="#timeline" class="nav-link px-4 py-2 text-lg">Хронология</a>
+                <a href="#motive" class="nav-link px-4 py-2 text-lg">Причины</a>
+                <a href="#consequences" class="nav-link px-4 py-2 text-lg">Последствия</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto p-4 md:p-8">
+        
+        <section id="attack" class="py-16 scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center mb-4">Анатомия Атаки</h2>
+            <p class="text-center text-lg max-w-3xl mx-auto mb-12">События июля 2025 года не были случайностью, а представляли собой многовекторную операцию, проведенную на трех фронтах: законодательном, силовом и информационном. Этот раздел раскрывает механику каждого из направлений удара, направленного на подчинение независимых антикоррупционных институтов.</p>
+            
+            <div class="max-w-4xl mx-auto">
+                <div class="flex justify-center border-b border-gray-300 mb-8">
+                    <button class="tab-button flex-1 py-3 px-4 text-lg font-medium text-gray-600 active" data-tab="legislative">Законодательный удар</button>
+                    <button class="tab-button flex-1 py-3 px-4 text-lg font-medium text-gray-600" data-tab="force">Силовая операция</button>
+                    <button class="tab-button flex-1 py-3 px-4 text-lg font-medium text-gray-600" data-tab="info">Информационная война</button>
+                </div>
+
+                <div id="legislative" class="tab-content">
+                    <h3 class="text-2xl font-bold mb-4 text-center">Законопроект №12414: Coup de Grâce</h3>
+                    <p class="mb-6 text-center">Под прикрытием гуманитарной инициативы был принят закон, который фундаментально разрушил независимость НАБУ и САП, передав ключевые полномочия политически назначаемому Генеральному прокурору.</p>
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h4 class="text-xl font-semibold mb-4 text-center">Перераспределение полномочий</h4>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="border-r-0 md:border-r-2 border-green-500 pr-0 md:pr-6">
+                                <h5 class="text-lg font-bold text-green-600 mb-2">ДО принятия закона</h5>
+                                <ul class="list-disc list-inside space-y-2">
+                                    <li><span class="font-semibold">Независимость НАБУ/САП:</span> Дела НАБУ не могли быть переданы другим органам.</li>
+                                    <li><span class="font-semibold">Подозрения топ-чиновникам:</span> Подписывались руководителем САП.</li>
+                                    <li><span class="font-semibold">Процессуальная самостоятельность:</span> Прокуроры САП были независимы от указаний ОГП.</li>
+                                </ul>
+                            </div>
+                            <div class="border-t-2 md:border-t-0 border-r-0 border-red-500 pt-6 md:pt-0">
+                                <h5 class="text-lg font-bold text-red-600 mb-2">ПОСЛЕ принятия закона</h5>
+                                <ul class="list-disc list-inside space-y-2">
+                                    <li><span class="font-semibold">Ручное управление:</span> Генпрокурор может забрать любое дело у НАБУ.</li>
+                                    <li><span class="font-semibold">Монополия Генпрокурора:</span> Только он может подписывать подозрения топ-чиновникам и закрывать дела против них.</li>
+                                    <li><span class="font-semibold">Подчинение САП:</span> Указания Генпрокурора стали обязательными для прокуроров САП.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="force" class="tab-content hidden">
+                    <h3 class="text-2xl font-bold mb-4 text-center">Операция "Шок и трепет"</h3>
+                    <p class="mb-8 text-center">Законодательному удару предшествовала и сопровождала его беспрецедентная силовая кампания, проведенная СБУ, ОГП и ГБР для парализации работы НАБУ.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                        <div class="bg-white p-6 rounded-lg shadow-lg">
+                            <p class="text-5xl font-bold text-[#C75D5D]">70+</p>
+                            <p class="mt-2 text-lg">обысков проведено у сотрудников НАБУ</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-lg">
+                            <p class="text-5xl font-bold text-[#C75D5D]">15+</p>
+                            <p class="mt-2 text-lg">детективов и сотрудников затронуто</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-lg">
+                            <p class="text-5xl font-bold text-[#C75D5D]">0</p>
+                            <p class="mt-2 text-lg">судебных санкций на большинство обысков</p>
+                        </div>
+                    </div>
+                     <p class="mt-8 text-center">Параллельно СБУ инициировала внеплановую проверку гостайны, получив доступ к самым чувствительным оперативным данным НАБУ, что создало угрозу срыва всех текущих и будущих расследований.</p>
+                </div>
+
+                <div id="info" class="tab-content hidden">
+                    <h3 class="text-2xl font-bold mb-4 text-center">Нарратив о предательстве</h3>
+                    <p class="mb-8 text-center">Третьим фронтом стала информационная война, построенная на громких, но не доказанных обвинениях, чтобы разрушить репутацию НАБУ в глазах общества.</p>
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                         <h4 class="text-xl font-semibold mb-4 text-center">Ключевые обвинения и контраргументы</h4>
+                         <div class="space-y-4">
+                            <div>
+                                <p class="font-bold">🔴 Обвинение:</p>
+                                <p class="ml-4">Сотрудники НАБУ — агенты ФСБ, связанные с пророссийскими политиками и помогавшие бежать олигархам.</p>
+                            </div>
+                             <div>
+                                <p class="font-bold">🟢 Ответ НАБУ:</p>
+                                <p class="ml-4">Обвинения сфабрикованы. Доказательств нет. Поездка сотрудников в Вену была официальной командировкой на международный форум.</p>
+                            </div>
+                             <div>
+                                <p class="font-bold">🔴 Обвинение:</p>
+                                <p class="ml-4">Внутренние утечки информации и коррупция в Бюро (дело "Большого строительства").</p>
+                            </div>
+                             <div>
+                                <p class="font-bold">🟢 Контекст:</p>
+                                <p class="ml-4">Внутренние проблемы были использованы и смешаны с обвинениями в госизмене для создания общего негативного фона, хотя это были не связанные между собой события.</p>
+                            </div>
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="timeline" class="py-16 scroll-mt-20 bg-white rounded-lg shadow-lg">
+            <h2 class="text-3xl font-bold text-center mb-4">Хронология скоординированной атаки</h2>
+            <p class="text-center text-lg max-w-3xl mx-auto mb-12">События 21 и 22 июля 2025 года разворачивались с молниеносной скоростью. Интерактивная хронология показывает, как силовая и законодательная атаки были синхронизированы для достижения максимального эффекта и предотвращения любой реакции.</p>
+            <div class="relative max-w-2xl mx-auto">
+                <div class="absolute top-0 h-full border-l-4 border-gray-200 left-2"></div>
+                <div id="timeline-container" class="space-y-8">
+                </div>
+            </div>
+        </section>
+
+        <section id="motive" class="py-16 scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center mb-4">Причины и Мотивы: "Почему сейчас?"</h2>
+             <p class="text-center text-lg max-w-3xl mx-auto mb-12">Атака на НАБУ не была случайной. Она стала кульминацией многолетнего противостояния и была вызвана как конкретными расследованиями Бюро, так и системным сопротивлением элит любым независимым институтам.</p>
+            <div class="grid lg:grid-cols-2 gap-12">
+                <div>
+                    <h3 class="text-2xl font-bold mb-6 text-center">Резонансные дела НАБУ</h3>
+                    <div class="space-y-4">
+                        <div class="bg-white p-4 rounded-lg shadow-md hover:shadow-xl transition-shadow">
+                            <h4 class="font-bold text-lg">Энергетический сектор</h4>
+                            <p>Дело против замминистра энергетики о взятке в $500 тыс.</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-md hover:shadow-xl transition-shadow">
+                            <h4 class="font-bold text-lg">Оборонная сфера</h4>
+                            <p>Расследование хищений при закупках для ВСУ на миллионы гривен.</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-md hover:shadow-xl transition-shadow">
+                            <h4 class="font-bold text-lg">Высшие должностные лица</h4>
+                            <p>Дела против главы АМКУ и экс-вице-премьера Алексея Чернышова.</p>
+                        </div>
+                         <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-lg shadow-md">
+                            <h4 class="font-bold text-lg">Превентивный удар</h4>
+                            <p>Источники утверждают, что рейд СБУ был связан с подготовкой подозрения бизнес-партнеру из ближайшего окружения президента.</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold mb-6 text-center">Исторические прецеденты</h3>
+                    <div class="space-y-4">
+                        <div class="bg-white p-4 rounded-lg shadow-md">
+                            <h4 class="font-bold text-lg">Отставка главы НБУ (2020)</h4>
+                            <p>Яков Смолий ушел в отставку из-за "систематического политического давления", используя те же методы: инфоатаки, митинги, давление через суды.</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-md">
+                            <h4 class="font-bold text-lg">Ликвидация суда ОАСК (2022)</h4>
+                            <p>Создан прецедент полной ликвидации высшего судебного органа через принятие закона, что узаконило "радикальные решения" для институциональных проблем.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="consequences" class="py-16 scroll-mt-20 bg-white rounded-lg shadow-lg">
+            <h2 class="text-3xl font-bold text-center mb-4">Последствия и Прогноз</h2>
+            <p class="text-center text-lg max-w-3xl mx-auto mb-12">Атака на НАБУ вышла далеко за рамки внутренней политики, вызвав резкую реакцию международных партнеров и поставив под угрозу финансовую стабильность Украины и ее евроатлантический курс.</p>
+            
+            <div class="grid lg:grid-cols-2 gap-12 items-start">
+                <div>
+                    <h3 class="text-2xl font-bold mb-6 text-center">Международная реакция</h3>
+                    <div class="chart-container">
+                        <canvas id="reactionsChart"></canvas>
+                    </div>
+                    <p class="text-center mt-4 text-sm text-gray-600">Оценочная шкала серьезности реакции на основе публичных заявлений.</p>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold mb-6 text-center">Что дальше? Эффект домино</h3>
+                    <div class="space-y-4 relative">
+                        <div class="absolute left-4 top-0 bottom-0 w-0.5 bg-gray-300"></div>
+                        <div class="pl-10 relative">
+                            <div class="absolute left-0 top-2.5 w-5 h-5 bg-[#C75D5D] rounded-full border-4 border-white"></div>
+                            <h4 class="font-bold text-lg">Подчинение НАБУ</h4>
+                            <p>Расследования коррупции берутся под политический контроль.</p>
+                        </div>
+                        <div class="pl-10 relative">
+                             <div class="absolute left-0 top-2.5 w-5 h-5 bg-gray-400 rounded-full border-4 border-white"></div>
+                            <h4 class="font-bold text-lg">Подчинение САП</h4>
+                            <p>Процессуальное руководство делами становится зависимым.</p>
+                        </div>
+                        <div class="pl-10 relative">
+                             <div class="absolute left-0 top-2.5 w-5 h-5 bg-gray-400 rounded-full border-4 border-white"></div>
+                            <h4 class="font-bold text-lg">Паралич ВАКС</h4>
+                            <p>В Высший антикоррупционный суд перестают поступать качественные дела, он становится импотентным.</p>
+                        </div>
+                        <div class="pl-10 relative">
+                             <div class="absolute left-0 top-2.5 w-5 h-5 bg-gray-400 rounded-full border-4 border-white"></div>
+                            <h4 class="font-bold text-lg">Полный демонтаж</h4>
+                            <p>Риск полной "переаттестации" и зачистки кадров НАБУ, что отбрасывает реформу на 10 лет назад.</p>
+                        </div>
+                    </div>
+                    <div class="mt-8 bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 rounded-lg">
+                        <h4 class="font-bold">Ключевая угроза: Условия МВФ</h4>
+                        <p>Атака на НАБУ — прямое нарушение "структурных маяков" МВФ, что ставит под угрозу программу финансирования на миллиарды долларов, критически важную для бюджета Украины.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2025. Интерактивный анализ на основе публичных данных и журналистских расследований.</p>
+            <p class="text-sm text-gray-400 mt-2">Это приложение является визуализацией и не представляет собой официальную позицию какого-либо государственного органа.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const tabs = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+
+                    const target = tab.getAttribute('data-tab');
+                    tabContents.forEach(content => {
+                        if (content.id === target) {
+                            content.classList.remove('hidden');
+                        } else {
+                            content.classList.add('hidden');
+                        }
+                    });
+                });
+            });
+
+            const timelineData = [
+                { time: '21 июля (утро)', event: 'Начало массовых обысков у сотрудников НАБУ (70+). Большинство без санкций суда.', actors: 'СБУ, ОГП, ГБР' },
+                { time: '21 июля', event: 'СБУ инициирует внеплановую проверку гостайны в НАБУ, получая доступ к оперативным данным.', actors: 'СБУ' },
+                { time: '21 июля (вечер)', event: 'В публичном поле появляется информация о поправках к законопроекту №12414, уничтожающих независимость НАБУ.', actors: 'Верховная Рада' },
+                { time: '22 июля (утро)', event: 'Правоохранительный комитет ВР в "турборежиме" одобряет поправки без обсуждения.', actors: 'Верховная Рада' },
+                { time: '22 июля (день)', event: 'Верховная Рада принимает закон №12414 (263 голоса "за").', actors: 'Верховная Рада' },
+                { time: '22 июля (день)', event: 'Руководители НАБУ и САП проводят совместный брифинг с призывом к Президенту ветировать закон.', actors: 'НАБУ, САП' }
+            ];
+
+            const timelineContainer = document.getElementById('timeline-container');
+            timelineData.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'timeline-item relative pl-8 pb-8 cursor-pointer';
+                div.innerHTML = `
+                    <h4 class="font-bold text-lg">${item.time}</h4>
+                    <div class="timeline-details hidden mt-2 bg-gray-100 p-4 rounded-lg">
+                        <p>${item.event}</p>
+                        <p class="text-sm text-gray-600 mt-1"><strong>Участники:</strong> ${item.actors}</p>
+                    </div>
+                `;
+                timelineContainer.appendChild(div);
+
+                div.addEventListener('click', () => {
+                    const details = div.querySelector('.timeline-details');
+                    const isActive = div.classList.contains('active');
+                    
+                    document.querySelectorAll('.timeline-item').forEach(i => {
+                        i.classList.remove('active');
+                        i.querySelector('.timeline-details').classList.add('hidden');
+                    });
+
+                    if (!isActive) {
+                        div.classList.add('active');
+                        details.classList.remove('hidden');
+                    }
+                });
+            });
+            
+            if(timelineContainer.firstChild) {
+                timelineContainer.firstChild.click();
+            }
+
+            const ctx = document.getElementById('reactionsChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Послы G7', 'Европейский Союз', 'Международные СМИ', 'МВФ (риск)'],
+                    datasets: [{
+                        label: 'Уровень обеспокоенности',
+                        data: [2, 3, 2.5, 4],
+                        backgroundColor: [
+                            'rgba(176, 168, 157, 0.6)',
+                            'rgba(90, 125, 154, 0.6)',
+                            'rgba(128, 128, 128, 0.6)',
+                            'rgba(199, 93, 93, 0.6)'
+                        ],
+                        borderColor: [
+                            '#B0A89D',
+                            '#5A7D9A',
+                            '#808080',
+                            '#C75D5D'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    const value = context.parsed.y;
+                                    if (value === 2) label += 'Серьезная обеспокоенность';
+                                    if (value === 2.5) label += 'Критический тон';
+                                    if (value === 3) label += 'Прямое предупреждение';
+                                    if (value === 4) label += 'Прямая угроза финансированию';
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 4,
+                            ticks: {
+                                stepSize: 1,
+                                callback: function(value, index, values) {
+                                    const labels = ['Низкий', 'Средний', 'Высокий', 'Прямая угроза', 'Критический'];
+                                    return labels[value];
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            const navbar = document.getElementById('navbar');
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.4
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href').substring(1) === entry.target.id) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    if (this.getAttribute('href').startsWith('#')) {
+                        e.preventDefault();
+                        const targetId = this.getAttribute('href');
+                        const targetElement = document.querySelector(targetId);
+                        if(targetElement) {
+                            targetElement.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
